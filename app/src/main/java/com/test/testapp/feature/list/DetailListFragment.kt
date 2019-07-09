@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.test.testapp.R
-import com.test.testapp.api.entity.Detail
+import com.test.testapp.repository.entity.Detail
 import com.test.testapp.feature.BaseFragment
 import com.test.testapp.feature.details.DetailsFragment
 import com.test.testapp.feature.list.adapter.DetailListAdapter

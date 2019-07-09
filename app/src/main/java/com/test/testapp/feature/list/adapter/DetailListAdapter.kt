@@ -3,7 +3,7 @@ package com.test.testapp.feature.list.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.test.testapp.api.entity.Detail
+import com.test.testapp.repository.entity.Detail
 import com.test.testapp.feature.list.viewholder.DetailViewHolder
 
 /**

@@ -1,19 +1,19 @@
 package com.test.testapp.viewmodel
 
 import android.annotation.SuppressLint
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.test.testapp.api.ApiClient
-import com.test.testapp.api.entity.CountryDetails
-import com.test.testapp.api.entity.Detail
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.test.testapp.repository.CountryRepository
+import com.test.testapp.repository.entity.CountryDetails
 
 /**
  * Created By Tharindu on 7/8/2019
  *
  */
-class DetailsViewModel : BaseViewModel() {
+class DetailsViewModel : BaseViewModel {
+
+    constructor(application: Application) : super(application)
 
     private val countryDetail: MutableLiveData<CountryDetails> by lazy {
         MutableLiveData<CountryDetails>().also {
@@ -24,6 +24,8 @@ class DetailsViewModel : BaseViewModel() {
     val selectedPosition = MutableLiveData<Int>()
 
     var isLoadMore: Boolean = false
+
+    var countryRepository: CountryRepository = CountryRepository(getApplication())
 
     /**
      * get Country Details
@@ -45,7 +47,18 @@ class DetailsViewModel : BaseViewModel() {
         showProgress.value = true
         this.isLoadMore = isLoadMore
 
-        ApiClient().getCountryDetails()
+        countryRepository.getCountryDetails(
+            isLoadMore = isLoadMore,
+            onSuccess = {
+                showProgress.value = false
+                countryDetail.value = it
+            },
+            onFailed = {
+                onError(it)
+            }
+        )
+
+        /*ApiClient().getCountryDetails()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -62,7 +75,7 @@ class DetailsViewModel : BaseViewModel() {
                 }
             }, {
                 onError(it)
-            })
+            })*/
     }
 
 }

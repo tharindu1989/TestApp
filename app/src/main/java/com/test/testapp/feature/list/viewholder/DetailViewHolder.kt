@@ -1,8 +1,5 @@
 package com.test.testapp.feature.list.viewholder
 
-import android.content.Context
-import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -12,7 +9,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import com.test.testapp.R
-import com.test.testapp.api.entity.Detail
+import com.test.testapp.repository.entity.Detail
 import java.lang.Exception
 
 /**
