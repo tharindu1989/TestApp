@@ -13,6 +13,7 @@ import com.test.testapp.feature.list.viewholder.DetailViewHolder
 class DetailListAdapter : RecyclerView.Adapter<DetailViewHolder>() {
 
     var countryDetailItems: List<Detail> = arrayListOf()
+    var onImageClick: OnImageClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -26,6 +27,9 @@ class DetailListAdapter : RecyclerView.Adapter<DetailViewHolder>() {
     override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {
         var data = countryDetailItems[position]
         holder.bindData(data)
+        holder.onImageClick {
+            onImageClick?.onClick(data)
+        }
     }
 
     /**
@@ -38,5 +42,9 @@ class DetailListAdapter : RecyclerView.Adapter<DetailViewHolder>() {
             this.countryDetailItems = it
             notifyDataSetChanged()
         }
+    }
+
+    interface OnImageClick {
+        fun onClick(data: Detail)
     }
 }

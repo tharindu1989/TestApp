@@ -9,9 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.testapp.R
+import com.test.testapp.api.entity.Detail
 import com.test.testapp.feature.BaseFragment
+import com.test.testapp.feature.details.DetailsFragment
 import com.test.testapp.viewmodel.ListViewModel
-import kotlinx.android.synthetic.main.list_fragment.*
+import kotlinx.android.synthetic.main.fragment_details_layout.*
 
 /**
  * Created By Tharindu on 7/8/2019
@@ -23,7 +25,7 @@ class DetailListFragment : BaseFragment() {
     private var detailAdapter: DetailListAdapter = DetailListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.list_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_details_layout, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,13 +53,26 @@ class DetailListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initialize()
+
+        setListeners()
     }
 
     private fun initialize() {
-
         countryDetailsRv.apply {
             adapter = detailAdapter
             layoutManager = LinearLayoutManager(context)
+        }
+    }
+
+    private fun setListeners() {
+        detailAdapter?.onImageClick = object : DetailListAdapter.OnImageClick {
+            override fun onClick(data: Detail) {
+                var countryList = viewModel?.countryDetail?.value?.rows as? ArrayList
+                var bundle = Bundle()
+                bundle.putParcelable("selectedItem", data)
+                bundle.putParcelableArrayList("itemList", countryList)
+                mActivity?.pushFragment(DetailsFragment(), bundle)
+            }
         }
     }
 }
