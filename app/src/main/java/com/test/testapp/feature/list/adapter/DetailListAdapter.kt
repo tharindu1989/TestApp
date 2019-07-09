@@ -1,4 +1,4 @@
-package com.test.testapp.feature.list
+package com.test.testapp.feature.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -28,7 +28,7 @@ class DetailListAdapter : RecyclerView.Adapter<DetailViewHolder>() {
         var data = countryDetailItems[position]
         holder.bindData(data)
         holder.onImageClick {
-            onImageClick?.onClick(data)
+            onImageClick?.onClick(data, position)
         }
     }
 
@@ -45,6 +45,6 @@ class DetailListAdapter : RecyclerView.Adapter<DetailViewHolder>() {
     }
 
     interface OnImageClick {
-        fun onClick(data: Detail)
+        fun onClick(data: Detail, index: Int)
     }
 }

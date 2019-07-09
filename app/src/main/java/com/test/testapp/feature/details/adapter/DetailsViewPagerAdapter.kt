@@ -1,9 +1,10 @@
-package com.test.testapp.feature.details
+package com.test.testapp.feature.details.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.test.testapp.api.entity.Detail
+import com.test.testapp.feature.details.ViewFragment
 
 /**
  * Created By Tharindu on 7/9/2019
@@ -23,8 +24,14 @@ class DetailsViewPagerAdapter(supportFragmentManager: FragmentManager?) :
         return detailsItems.size
     }
 
-    fun refresh(items: List<Detail>) {
-        this.detailsItems = items
-        notifyDataSetChanged()
+    /**
+     * refresh the Adapter with new Data
+     * @param items : Details List Items
+     */
+    fun refresh(items: List<Detail>?) {
+        items?.let {
+            this.detailsItems = items
+            notifyDataSetChanged()
+        }
     }
 }

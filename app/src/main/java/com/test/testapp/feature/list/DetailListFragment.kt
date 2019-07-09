@@ -1,7 +1,6 @@
 package com.test.testapp.feature.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,8 @@ import com.test.testapp.R
 import com.test.testapp.api.entity.Detail
 import com.test.testapp.feature.BaseFragment
 import com.test.testapp.feature.details.DetailsFragment
-import com.test.testapp.viewmodel.ListViewModel
+import com.test.testapp.feature.list.adapter.DetailListAdapter
+import com.test.testapp.viewmodel.DetailsViewModel
 import kotlinx.android.synthetic.main.fragment_details_layout.*
 
 /**
@@ -21,32 +21,36 @@ import kotlinx.android.synthetic.main.fragment_details_layout.*
  */
 class DetailListFragment : BaseFragment() {
 
-    var viewModel: ListViewModel? = null
-    private var detailAdapter: DetailListAdapter = DetailListAdapter()
+    var viewModel: DetailsViewModel? = null
+    private var detailAdapter: DetailListAdapter =
+        DetailListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_details_layout, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        viewModel?.countryDetail?.observe(this, Observer {
-            Log.e("DATA", it.title)
+        viewModel = mActivity?.let {
+            ViewModelProviders.of(it).get(DetailsViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+
+        viewModel?.getCountryDetailList()?.observe(this, Observer {
             detailAdapter.refreshAdapter(it.rows)
             mActivity?.setToolBarTitle(it.title)
         })
-
         viewModel?.onError?.observe(this, Observer {
             showError(it.message)
         })
+        viewModel?.showProgress?.observe(this, Observer {
+            if (it) {
+                mActivity?.showProgress()
+            } else {
+                mActivity?.hideProgress()
+            }
+        })
 
-        viewModel?.getCountryDetails()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,12 +70,9 @@ class DetailListFragment : BaseFragment() {
 
     private fun setListeners() {
         detailAdapter?.onImageClick = object : DetailListAdapter.OnImageClick {
-            override fun onClick(data: Detail) {
-                var countryList = viewModel?.countryDetail?.value?.rows as? ArrayList
-                var bundle = Bundle()
-                bundle.putParcelable("selectedItem", data)
-                bundle.putParcelableArrayList("itemList", countryList)
-                mActivity?.pushFragment(DetailsFragment(), bundle)
+            override fun onClick(data: Detail, position: Int) {
+                viewModel?.selectedPosition?.value = position
+                mActivity?.pushFragment(DetailsFragment())
             }
         }
     }

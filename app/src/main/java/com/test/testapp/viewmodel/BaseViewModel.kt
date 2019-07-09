@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 open class BaseViewModel : ViewModel() {
 
     var onError: MutableLiveData<Throwable> = MutableLiveData()
+    var showProgress : MutableLiveData<Boolean> = MutableLiveData()
 
     protected fun onError(err: Throwable) {
         onError.value = err

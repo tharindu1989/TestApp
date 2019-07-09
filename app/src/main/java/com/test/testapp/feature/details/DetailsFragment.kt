@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.test.testapp.R
-import com.test.testapp.api.entity.Detail
 import com.test.testapp.feature.BaseFragment
+import com.test.testapp.feature.details.adapter.DetailsViewPagerAdapter
 import com.test.testapp.viewmodel.DetailsViewModel
 import kotlinx.android.synthetic.main.fragment_view_details_layout.*
 
@@ -20,22 +20,25 @@ class DetailsFragment : BaseFragment() {
 
     var viewPagerAdapter: DetailsViewPagerAdapter? = null
     var viewModel: DetailsViewModel? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_view_details_layout, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(DetailsViewModel::class.java)
+        viewModel = mActivity?.let {
+            ViewModelProviders.of(it).get(DetailsViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
 
-        viewModel?.countryDetail?.observe(this, Observer {
-            viewPagerAdapter?.refresh(it)
+        viewModel?.getCountryDetailList()?.observe(this, Observer {
+            viewPagerAdapter?.refresh(it.rows)
+        })
+        viewModel?.getSelectedPosition()?.observe(this, Observer {
+            detailsViewPager?.currentItem = it
         })
 
-        arguments?.getParcelableArrayList<Detail>("itemList")?.let {
-            viewModel?.countryDetail?.value = it
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
