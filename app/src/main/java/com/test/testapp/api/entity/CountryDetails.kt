@@ -6,5 +6,5 @@ package com.test.testapp.api.entity
  */
 data class CountryDetails(
     val title: String? = null,
-    val rows: List<Detail>? = null
+    var rows: ArrayList<Detail>? = null
 )
