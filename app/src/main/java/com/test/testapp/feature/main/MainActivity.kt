@@ -2,17 +2,16 @@ package com.test.testapp.feature.main
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
-import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.test.testapp.R
 import com.test.testapp.feature.BaseActivity
-import com.test.testapp.feature.list.ListFragment
+import com.test.testapp.feature.list.DetailListFragment
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.list_country_detail.view.*
 
 class MainActivity : BaseActivity() {
 
@@ -24,13 +23,21 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        pushFragment(ListFragment())
+        pushFragment(DetailListFragment())
+
+        toolbar.title = ""
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
+    }
+
+    fun setToolBarTitle(title: String?) {
+        title?.let {
+            toolbar.title = it
+        }
     }
 
     /**
@@ -58,6 +65,9 @@ class MainActivity : BaseActivity() {
         for (item in 1..numberOfTimes) {
             popStack()?.let {
                 fragmentManager.popBackStack(it, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                if (fragmentStack.isEmpty()) {
+                    this.finish()
+                }
             } ?: run {
                 this.finish()
             }
@@ -104,6 +114,11 @@ class MainActivity : BaseActivity() {
         }
         snackBar.show()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        popFragment()
     }
 
 }
