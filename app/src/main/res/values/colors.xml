@@ -10,4 +10,5 @@
     <color name="white">#FFFFFF</color>
 
     <color name="black_trans">#56000000</color>
+    <color name="black_trans_back">#9C000000</color>
 </resources>

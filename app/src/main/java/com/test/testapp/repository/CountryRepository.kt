@@ -1,13 +1,11 @@
 package com.test.testapp.repository
 
 import android.app.Application
-import android.content.Context
 import com.test.testapp.repository.api.ApiClient
 import com.test.testapp.repository.db.CountryDetailsDataBase
 import com.test.testapp.repository.entity.CountryDetails
 import com.test.testapp.repository.entity.Detail
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -83,7 +81,7 @@ class CountryRepository(context: Application) {
     }
 
     /**
-     * Insert Items to DB
+     * Insert Items to Local DB
      */
     private fun insertItems(data: CountryDetails, onSuccess: () -> Unit) {
         Flowable.just(

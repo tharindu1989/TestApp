@@ -38,9 +38,9 @@ class DetailViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         descriptionTxt?.text = detail?.description
         Picasso.get()
             .load(detail?.imageHref)
-            .error(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_image_black_24dp)
             .networkPolicy(NetworkPolicy.OFFLINE)
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(R.drawable.ic_image_black_24dp)
             .into(countryImg, object : Callback {
                 override fun onSuccess() {
                     // Not Required
@@ -49,8 +49,8 @@ class DetailViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
                 override fun onError(e: Exception?) {
                     Picasso.get()
                         .load(detail?.imageHref)
-                        .error(R.drawable.ic_launcher_background)
-                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_image_black_24dp)
+                        .placeholder(R.drawable.ic_image_black_24dp)
                         .into(countryImg)
 
                 }
