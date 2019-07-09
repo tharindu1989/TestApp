@@ -75,5 +75,10 @@ class DetailListFragment : BaseFragment() {
                 mActivity?.pushFragment(DetailsFragment())
             }
         }
+
+        swipeRefreshLayout?.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = false
+            viewModel?.getCountryDetails()
+        }
     }
 }

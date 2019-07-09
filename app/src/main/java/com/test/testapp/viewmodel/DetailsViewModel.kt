@@ -35,7 +35,7 @@ class DetailsViewModel : BaseViewModel() {
     /**
      * get Country Details
      */
-    private fun getCountryDetails() {
+    fun getCountryDetails() {
         showProgress.value = true
         ApiClient().getCountryDetails()
             .subscribeOn(Schedulers.io())

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.test.testapp.R
 import com.test.testapp.feature.BaseActivity
+import com.test.testapp.feature.component.ProgressDialog
 import com.test.testapp.feature.list.DetailListFragment
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,6 +23,8 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        progress = ProgressDialog(this)
 
         pushFragment(DetailListFragment())
 
