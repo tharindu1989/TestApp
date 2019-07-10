@@ -44,10 +44,17 @@ class DetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initialize()
+        setListeners()
     }
 
     private fun initialize() {
         viewPagerAdapter = DetailsViewPagerAdapter(this.fragmentManager)
         detailsViewPager?.adapter = viewPagerAdapter
+    }
+
+    private fun setListeners() {
+        closeImg?.setOnClickListener {
+            mActivity?.popFragment()
+        }
     }
 }

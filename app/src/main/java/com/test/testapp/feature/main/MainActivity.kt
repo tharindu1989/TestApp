@@ -24,10 +24,10 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        progress = ProgressDialog(this)
-
-        pushFragment(DetailListFragment())
-
+        if (savedInstanceState == null) {
+            progress = ProgressDialog(this)
+            pushFragment(DetailListFragment())
+        }
         toolbar.title = ""
     }
 

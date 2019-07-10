@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.test.testapp.R
-import com.test.testapp.api.entity.Detail
+import com.test.testapp.repository.entity.Detail
 import com.test.testapp.feature.BaseFragment
 import com.test.testapp.feature.details.DetailsFragment
 import com.test.testapp.feature.list.adapter.DetailListAdapter
@@ -39,10 +40,13 @@ class DetailListFragment : BaseFragment() {
         viewModel?.getCountryDetailList()?.observe(this, Observer {
             detailAdapter.refreshAdapter(it.rows)
             mActivity?.setToolBarTitle(it.title)
+
         })
+
         viewModel?.onError?.observe(this, Observer {
             showError(it.message)
         })
+
         viewModel?.showProgress?.observe(this, Observer {
             if (it) {
                 mActivity?.showProgress()
@@ -53,18 +57,19 @@ class DetailListFragment : BaseFragment() {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         initialize()
 
         setListeners()
-    }
 
+    }
     private fun initialize() {
         countryDetailsRv.apply {
             adapter = detailAdapter
             layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
         }
     }
 
@@ -80,5 +85,36 @@ class DetailListFragment : BaseFragment() {
             swipeRefreshLayout.isRefreshing = false
             viewModel?.getCountryDetails()
         }
+
+        countryDetailsRv?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                var layoutManager = countryDetailsRv.layoutManager as? LinearLayoutManager
+                layoutManager?.let {
+
+                    if (isLastItem(it.findLastCompletelyVisibleItemPosition())) {
+                        viewModel?.getCountryDetails(true)
+                    }
+                }
+            }
+        })
+    }
+
+    /**
+     * check RecyclerView is at last item
+     */
+    fun isLastItem(adapterItems: Int?): Boolean {
+        return adapterItems == ((viewModel?.getCountryDetailList()?.value?.rows?.size ?: 0) - 1) &&
+                viewModel?.showProgress?.value == false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mActivity?.setToolBarTitle(viewModel?.getCountryDetailList()?.value?.title)
     }
 }

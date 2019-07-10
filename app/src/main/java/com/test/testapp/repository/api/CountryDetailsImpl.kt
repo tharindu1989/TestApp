@@ -1,6 +1,6 @@
-package com.test.testapp.api.repository
+package com.test.testapp.repository.api
 
-import com.test.testapp.api.entity.CountryDetails
+import com.test.testapp.repository.entity.CountryDetails
 import io.reactivex.Observable
 import retrofit2.http.GET
 
@@ -8,7 +8,7 @@ import retrofit2.http.GET
  * Created By Tharindu on 7/8/2019
  *
  */
-interface CountryRepository {
+interface CountryDetailsImpl {
 
     @GET("facts.json")
     fun getCountryDetails(): Observable<CountryDetails>

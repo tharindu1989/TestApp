@@ -3,7 +3,7 @@ package com.test.testapp.feature.details.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.test.testapp.api.entity.Detail
+import com.test.testapp.repository.entity.Detail
 import com.test.testapp.feature.details.ViewFragment
 
 /**

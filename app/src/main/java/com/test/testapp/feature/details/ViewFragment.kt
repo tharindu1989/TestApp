@@ -24,7 +24,11 @@ class ViewFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         var imageUrl = arguments?.getString("image")
-        Picasso.get().load(imageUrl).into(viewImg)
+        Picasso.get()
+            .load(imageUrl)
+            .error(R.drawable.ic_image_black_24dp)
+            .placeholder(R.drawable.ic_image_black_24dp)
+            .into(viewImg)
     }
 
     companion object {

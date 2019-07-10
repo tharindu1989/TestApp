@@ -3,7 +3,7 @@ package com.test.testapp.feature.list.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.test.testapp.api.entity.Detail
+import com.test.testapp.repository.entity.Detail
 import com.test.testapp.feature.list.viewholder.DetailViewHolder
 
 /**
@@ -12,7 +12,7 @@ import com.test.testapp.feature.list.viewholder.DetailViewHolder
  */
 class DetailListAdapter : RecyclerView.Adapter<DetailViewHolder>() {
 
-    var countryDetailItems: List<Detail> = arrayListOf()
+    var countryDetailItems: ArrayList<Detail> = arrayListOf()
     var onImageClick: OnImageClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
@@ -37,9 +37,13 @@ class DetailListAdapter : RecyclerView.Adapter<DetailViewHolder>() {
      * @param items : Items for Adapter
      *
      */
-    fun refreshAdapter(items: List<Detail>?) {
+    fun refreshAdapter(items: ArrayList<Detail>?, isLoadMore: Boolean? = false) {
         items?.let {
-            this.countryDetailItems = it
+            if (isLoadMore == true) {
+                countryDetailItems.addAll(it)
+            } else {
+                this.countryDetailItems = it
+            }
             notifyDataSetChanged()
         }
     }

@@ -1,8 +1,5 @@
 package com.test.testapp.feature.list.viewholder
 
-import android.content.Context
-import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -12,7 +9,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import com.test.testapp.R
-import com.test.testapp.api.entity.Detail
+import com.test.testapp.repository.entity.Detail
 import java.lang.Exception
 
 /**
@@ -41,9 +38,9 @@ class DetailViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         descriptionTxt?.text = detail?.description
         Picasso.get()
             .load(detail?.imageHref)
-            .error(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_image_black_24dp)
             .networkPolicy(NetworkPolicy.OFFLINE)
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(R.drawable.ic_image_black_24dp)
             .into(countryImg, object : Callback {
                 override fun onSuccess() {
                     // Not Required
@@ -52,8 +49,8 @@ class DetailViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
                 override fun onError(e: Exception?) {
                     Picasso.get()
                         .load(detail?.imageHref)
-                        .error(R.drawable.ic_launcher_background)
-                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_image_black_24dp)
+                        .placeholder(R.drawable.ic_image_black_24dp)
                         .into(countryImg)
 
                 }
