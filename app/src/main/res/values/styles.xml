@@ -15,7 +15,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="Custom.ProgressBar" parent="Widget.AppCompat.ProgressBar">
-        <item name="android:color">@color/red</item>
+        <item name="android:indeterminateTint">@color/red</item>
     </style>
 
     <style name="H1" parent="TextAppearance.AppCompat">
@@ -41,6 +41,7 @@
     </style>
     <style name="H4_white" parent="H4">
         <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 

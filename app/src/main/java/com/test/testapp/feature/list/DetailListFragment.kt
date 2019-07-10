@@ -57,14 +57,14 @@ class DetailListFragment : BaseFragment() {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         initialize()
 
         setListeners()
-    }
 
+    }
     private fun initialize() {
         countryDetailsRv.apply {
             adapter = detailAdapter
@@ -111,5 +111,10 @@ class DetailListFragment : BaseFragment() {
     fun isLastItem(adapterItems: Int?): Boolean {
         return adapterItems == ((viewModel?.getCountryDetailList()?.value?.rows?.size ?: 0) - 1) &&
                 viewModel?.showProgress?.value == false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mActivity?.setToolBarTitle(viewModel?.getCountryDetailList()?.value?.title)
     }
 }
